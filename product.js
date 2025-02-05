@@ -23,10 +23,10 @@ const addProduct = (name, price) => {
     if ( !name || !price ) {
         throw new Error("Name and Price of the product must be defined");
     }
-    if ( isNaN(price) ) {
+    if ( typeof price !== 'number' || isNaN(Number(price)) ) {
         throw new Error("Price must be a Number");
     }
-    if ( products.some(obj => obj.name === name) ) {
+    if ( products.some(obj => obj.productName === name) ) {
         throw new Error("The product already exists");
     }
     let newProduct = {
@@ -49,6 +49,7 @@ const removeProduct = (id) => {
         // If the product exists (index !== -1), remove it using splice
         if (index !== -1) {
             products.splice(index, 1); // Removes 1 element at the found index
+            console.log(products)
     }
 }
 }
@@ -61,10 +62,10 @@ const getProduct = (id) => {
 
     if (products.some(product => product.id === id) === false ) { //* .some devuelve true or false
         throw new Error("This product does not exist");
-    } else {
-      const singleProduct = products.find(product => product.id === id);
-      return singleProduct
     }
+    const singleProduct = products.find(product => product.id === id);
+    console.log(singleProduct)
+    return singleProduct
 }
 
 const updateProduct = (id, newName, newPrice) => {
@@ -76,9 +77,6 @@ const updateProduct = (id, newName, newPrice) => {
     }
     if (!newName || !newPrice) {
         throw new Error("Name and Price must be defined");
-    }
-    if (isNaN(newPrice)) {
-        throw new Error("Price must be a number");
     }
 
     productUpdating.productName = newName;
@@ -93,4 +91,6 @@ module.exports = {
     getProducts,
     getProduct,
     updateProduct,
+    products,
+    productId
 }
